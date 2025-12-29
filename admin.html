@@ -832,7 +832,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <script>
         // 🔒 Smart Code Protection System
@@ -1378,12 +1377,19 @@
                 justice: '⚖️ العدل'
             };
 
-            container.innerHTML = filtered.map((submission, index) => `
+            container.innerHTML = filtered.map((submission) => {
+                // Find the actual index in the original array
+                const actualIndex = submissions.findIndex(s => 
+                    s.timestamp === submission.timestamp && 
+                    s.userId === submission.userId
+                );
+
+                return `
                 <div class="submission-item">
                     <div class="submission-header">
                         <div>
                             <div class="submission-user">${submission.username || 'مستخدم'}</div>
-                            <div style="color: #b399ff; font-size: 0.9em; margin-top: 5px;">
+                            <div style="color: #b399ff; font-size: 0.9em; margin-top: 5px; font-weight: 600;">
                                 ${serviceLabels[submission.service]} • ${new Date(submission.timestamp).toLocaleString('ar')}
                             </div>
                         </div>
@@ -1402,12 +1408,13 @@
                     </div>
                     ${submission.status === 'pending' ? `
                         <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <button class="btn btn-success" onclick="approveSubmission(${index})">✅ قبول</button>
-                            <button class="btn btn-danger" onclick="rejectSubmission(${index})">❌ رفض</button>
+                            <button class="btn btn-success" onclick="approveSubmission(${actualIndex})">✅ قبول</button>
+                            <button class="btn btn-danger" onclick="rejectSubmission(${actualIndex})">❌ رفض</button>
                         </div>
                     ` : ''}
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function approveSubmission(index) {
