@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The West Apply </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* User Info Bar */
+        .user-info-bar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .user-info-bar.active {
+            display: flex;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #8a2be2;
+        }
+
+        .user-name {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: rgba(255, 77, 87, 0.2);
+            color: #ff4757;
+            border: 1px solid #ff4757;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .admin-btn {
+            display: none;
+            background: linear-gradient(135deg, #8a2be2, #da70d6);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.5);
+        }
+
+        .admin-btn.show {
+            display: inline-block !important;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://i.ibb.co/QjvZDD92/wqd.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 0, 51, 0.7);
+            z-index: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Welcome Page */
+        .welcome-page {
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid rgba(138, 43, 226, 0.5);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.6);
+            display: inline-block;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
+        }
+
+        .subtitle {
+            color: #ddd;
+            font-size: 1.2em;
+            margin-bottom: 50px;
+        }
+
+        .welcome-text {
+            color: #fff;
+            font-size: 1.5em;
+            margin: 40px 0;
+        }
+
+        .discord-btn {
+            background: linear-gradient(135deg, #5865F2 0%, #7289DA 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(88, 101, 242, 0.6);
+        }
+
+        /* Services Page */
+        .services-page {
+            display: none;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .services-page.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scale(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(138, 43, 226, 0.8);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.4);
+        }
+
+        .service-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-icon svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 15px rgba(138, 43, 226, 0.6));
+        }
+
+        .service-card h3 {
+            color: #fff;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card p {
+            color: #ccc;
+            font-size: 1.1em;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Questions Page */
+        .questions-page {
+            display: none;
+            animation: fadeIn 0.8s ease-in;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .questions-page.active {
+            display: block;
+        }
+
+        .question-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .question-header {
+            margin-bottom: 40px;
+        }
+
+        .question-header h2 {
+            color: #fff;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8a2be2, #da70d6);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .question-content {
+            margin: 40px 0;
+        }
+
+        .question-content label {
+            color: #fff;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .question-content input,
+        .question-content select,
+        .question-content textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .question-content input:focus,
+        .question-content select:focus,
+        .question-content textarea:focus {
+            outline: none;
+            border-color: rgba(138, 43, 226, 0.8);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .question-content textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .question-content select option {
+            background: #1a0033;
+            color: #fff;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #8a2be2, #da70d6);
+            color: white;
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(138, 43, 226, 0.6);
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+            box-shadow: 0 8px 20px rgba(58, 123, 213, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(58, 123, 213, 0.6);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .success-message h2 {
+            color: #00d2ff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            color: #fff;
+            font-size: 1.3em;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Particle effects */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(138, 43, 226, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 15s infinite;
+            z-index: 0;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .user-info-bar {
+                left: 10px;
+                top: 10px;
+                padding: 8px 15px;
+            }
+
+            .user-name {
+                font-size: 0.9em;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles -->
+    <div id="particles"></div>
+
+    <!-- User Info Bar -->
+    <div class="user-info-bar" id="userInfoBar">
+        <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+        <span class="user-name" id="userName"></span>
+        <button class="admin-btn" id="adminBtn" onclick="goToAdminPanel()">👑 لوحة الإدارة</button>
+        <button class="logout-btn" onclick="handleLogout()">تسجيل خروج</button>
+    </div>
+
+    <div class="container">
+        <!-- Welcome Page -->
+        <div class="welcome-page" id="welcomePage">
+            <div class="logo-container">
+                <img src="https://i.ibb.co/QFfrysnk/wd.png" alt="The West Logo" class="logo">
+            </div>
+            <h1>The West </h1>
+            <p class="subtitle">تقيدمات السيرفر</p>
+            <p class="welcome-text">Welcome To The West </p>
+            <button class="discord-btn" onclick="loginWithDiscord()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+                تسجيل الدخول عبر Discord
+            </button>
+        </div>
+
+        <!-- Services Page -->
+        <div class="services-page" id="servicesPage">
+            <div class="header">
+                <div class="logo-container">
+                    <img src="https://i.ibb.co/QFfrysnk/wd.png" alt="The West Logo" class="logo">
+                </div>
+                <h1>اختر الخدمة</h1>
+                <p class="subtitle">الخدمات المتاحة في السيرفر</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Health Service -->
+                <div class="service-card" onclick="selectService('health')">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="healthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#ff4757;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#ff6b81;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M50 85 L20 55 L20 35 C20 25 28 18 38 18 C43 18 48 20 50 25 C52 20 57 18 62 18 C72 18 80 25 80 35 L80 55 Z" 
+                                  fill="url(#healthGrad)" stroke="#fff" stroke-width="2"/>
+                            <rect x="45" y="35" width="10" height="30" fill="#fff" rx="2"/>
+                            <rect x="35" y="45" width="30" height="10" fill="#fff" rx="2"/>
+                        </svg>
+                    </div>
+                    <h3>الصحة</h3>
+                    <p>خدمات الرعاية الصحية والطبية</p>
+                </div>
+
+                <!-- Activation Service -->
+                <div class="service-card" onclick="selectService('activation')">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="activationGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3742fa;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#5f27cd;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="35" fill="none" stroke="url(#activationGrad)" stroke-width="3"/>
+                            <path d="M50 20 L60 45 L85 50 L60 55 L50 80 L40 55 L15 50 L40 45 Z" 
+                                  fill="url(#activationGrad)" stroke="#fff" stroke-width="2"/>
+                            <circle cx="50" cy="50" r="8" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h3>التفعيل</h3>
+                    <p>تقديم تفعيل داخل المدينة </p>
+                </div>
+
+                <!-- Police Service -->
+                <div class="service-card" onclick="selectService('police')">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="policeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#1e90ff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#00d2ff;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M50 15 L70 25 L75 50 C75 70 65 82 50 85 C35 82 25 70 25 50 L30 25 Z" 
+                                  fill="url(#policeGrad)" stroke="#fff" stroke-width="2"/>
+                            <circle cx="50" cy="45" r="12" fill="#fff"/>
+                            <path d="M50 33 L53 42 L62 43 L55 49 L57 58 L50 53 L43 58 L45 49 L38 43 L47 42 Z" 
+                                  fill="url(#policeGrad)"/>
+                        </svg>
+                    </div>
+                    <h3>الشرطة</h3>
+                    <p>تقديم لقطاع الشرطة</p>
+                </div>
+
+                <!-- Justice Service -->
+                <div class="service-card" onclick="selectService('justice')">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="justiceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#f39c12;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#f1c40f;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <rect x="45" y="20" width="10" height="55" fill="url(#justiceGrad)" rx="2"/>
+                            <line x1="20" y1="35" x2="80" y2="35" stroke="url(#justiceGrad)" stroke-width="3"/>
+                            <path d="M20 35 L25 55 L35 55 L30 35 Z" fill="url(#justiceGrad)" stroke="#fff" stroke-width="1"/>
+                            <path d="M80 35 L75 55 L65 55 L70 35 Z" fill="url(#justiceGrad)" stroke="#fff" stroke-width="1"/>
+                            <rect x="35" y="75" width="30" height="8" fill="url(#justiceGrad)" rx="2"/>
+                        </svg>
+                    </div>
+                    <h3>العدل</h3>
+                    <p>الخدمات القضائية والقانونية</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions Page -->
+        <div class="questions-page" id="questionsPage">
+            <div class="question-container">
+                <div class="question-header">
+                    <h2 id="serviceTitle">الصحة</h2>
+                    <p class="subtitle" id="questionNumber">السؤال 1 من 5</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+                    </div>
+                </div>
+
+                <div class="question-content" id="questionContent">
+                    <!-- Questions will be loaded here dynamically -->
+                </div>
+
+                <div class="btn-container">
+                    <button class="btn btn-back" id="backBtn" onclick="previousQuestion()">رجوع</button>
+                    <button class="btn btn-next" id="nextBtn" onclick="nextQuestion()">التالي</button>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#00d2ff" stroke-width="3"/>
+                            <path d="M30 50 L45 65 L70 35" fill="none" stroke="#00d2ff" stroke-width="5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h2>تم الإرسال بنجاح!</h2>
+                    <p>شكراً لك، سيتم مراجعة طلبك قريباً</p>
+                    <button class="btn btn-next" onclick="backToServices()" style="margin-top: 30px">العودة للخدمات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🔒 Smart Code Protection System
+        (function() {
+            'use strict';
+            
+            // منع النقر بزر الماوس الأيمن
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            // منع جميع اختصارات لوحة المفاتيح
+            document.addEventListener('keydown', function(e) {
+                // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S
+                if (e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 73) ||
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 74) ||
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 67) ||
+                    (e.ctrlKey && e.keyCode === 85) ||
+                    (e.ctrlKey && e.keyCode === 83)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }, false);
+
+            // منع التحديد والنسخ
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            // منع السحب
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+        })();
+
+        // ============================================
+        // Discord Configuration
+        // ============================================
+        const DISCORD_CONFIG = {
+            CLIENT_ID: '1441190288600203404',              // ضع Client ID هنا
+            REDIRECT_URI: 'https://tjarb.rf.gd/',         // ضع رابط موقعك هنا
+        };
+
+        // Admin Configuration
+        const ADMIN_CONFIG = {
+            SUPER_ADMIN_ID: '1352958103246606366',  // ضع Discord ID الخاص بك هنا
+        };
+
+        // ============================================
+        // Questions Data
+        // ============================================
+        const questionsData = {
+            health: [
+    { type: 'text', label: 'اسم الشخصية', id: 'character_name' },
+    { type: 'number', label: 'عمر الشخصية', id: 'character_age' },
+    { type: 'textarea', label: 'الخبرات', id: 'experiences' },
+    { type: 'textarea', label: 'سبب التقديم', id: 'application_reason' },
+    { type: 'select', label: 'هل لديك خبرة طبية سابقة؟', id: 'medical_experience', options: ['نعم', 'لا'] }
+],
+
+activation: [
+    { type: 'text', label: 'اسم الشخصية', id: 'character_name' },
+    { type: 'number', label: 'عمر الشخصية', id: 'character_age' },
+    { type: 'textarea', label: 'قصة شخصيتك', id: 'experiences' },
+    { type: 'textarea', label: 'عمرك الحقيقي ', id: 'application_reason' },
+    { type: 'select', label: 'Cfw هل سبق لك اللعب في نفس المجال؟', id: 'previous_work', options: ['نعم', 'لا'] }
+],
+
+police: [
+    { type: 'text', label: 'اسم الشخصية', id: 'character_name' },
+    { type: 'number', label: 'عمر الشخصية', id: 'character_age' },
+    { type: 'textarea', label: 'الخبرات', id: 'experiences' },
+    { type: 'textarea', label: 'سبب التقديم', id: 'application_reason' },
+    { type: 'select', label: 'هل لديك خبرة سابقة في الشرطة؟', id: 'police_experience', options: ['نعم', 'لا'] }
+],
+
+justice: [
+    { type: 'text', label: 'اسم الشخصية', id: 'character_name' },
+    { type: 'number', label: 'عمر الشخصية', id: 'character_age' },
+    { type: 'textarea', label: 'الخبرات', id: 'experiences' },
+    { type: 'textarea', label: 'سبب التقديم', id: 'application_reason' },
+    { type: 'select', label: 'هل لديك معرفة بالقوانين؟', id: 'law_knowledge', options: ['نعم', 'لا'] }
+]
+        };
+
+        let currentService = '';
+        let currentQuestionIndex = 0;
+        let answers = {};
+
+        // ============================================
+        // Create Particles
+        // ============================================
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // ============================================
+        // Discord Login Function
+        // ============================================
+        function loginWithDiscord() {
+            if (!DISCORD_CONFIG.CLIENT_ID || DISCORD_CONFIG.CLIENT_ID === 'YOUR_CLIENT_ID') {
+                alert('⚠️ يرجى وضع Client ID في الكود أولاً!\n\nاذهب إلى:\nhttps://discord.com/developers/applications');
+                return;
+            }
+            
+            const params = new URLSearchParams({
+                client_id: DISCORD_CONFIG.CLIENT_ID,
+                redirect_uri: DISCORD_CONFIG.REDIRECT_URI,
+                response_type: 'token',
+                scope: 'identify email'
+            });
+            
+            window.location.href = `https://discord.com/api/oauth2/authorize?${params.toString()}`;
+        }
+
+        // ============================================
+        // Handle Discord Callback
+        // ============================================
+        window.addEventListener('DOMContentLoaded', () => {
+            // Create particles first
+            createParticles();
+            
+            const fragment = window.location.hash.substring(1);
+            const params = new URLSearchParams(fragment);
+            const accessToken = params.get('access_token');
+            
+            if (accessToken) {
+                fetch('https://discord.com/api/users/@me', {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+                .then(res => res.json())
+                .then(userData => {
+                    console.log('✅ تم تسجيل الدخول:', userData);
+                    console.log('🆔 User ID:', userData.id);
+                    localStorage.setItem('discord_user', JSON.stringify(userData));
+                    localStorage.setItem('discord_token', accessToken);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    showServicesAfterLogin(userData);
+                })
+                .catch(err => {
+                    console.error('❌ خطأ:', err);
+                    alert('حدث خطأ في تسجيل الدخول');
+                });
+            } else {
+                const savedUser = localStorage.getItem('discord_user');
+                if (savedUser) {
+                    const userData = JSON.parse(savedUser);
+                    console.log('✅ مستخدم محفوظ:', userData);
+                    console.log('🆔 User ID:', userData.id);
+                    showServicesAfterLogin(userData);
+                }
+            }
+        });
+
+        // ============================================
+        // Create Particles
+        // ============================================
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // ============================================
+        // Discord Login Function
+        // ============================================
+        function loginWithDiscord() {
+            if (!DISCORD_CONFIG.CLIENT_ID || DISCORD_CONFIG.CLIENT_ID === 'YOUR_CLIENT_ID') {
+                alert('⚠️ يرجى وضع Client ID في الكود أولاً!\n\nاذهب إلى:\nhttps://discord.com/developers/applications');
+                return;
+            }
+            
+            const params = new URLSearchParams({
+                client_id: DISCORD_CONFIG.CLIENT_ID,
+                redirect_uri: DISCORD_CONFIG.REDIRECT_URI,
+                response_type: 'token',
+                scope: 'identify email'
+            });
+            
+            window.location.href = `https://discord.com/api/oauth2/authorize?${params.toString()}`;
+        }
+
+        // ============================================
+        // Show Services After Login
+        // ============================================
+        function showServicesAfterLogin(userData) {
+            const welcomePage = document.getElementById('welcomePage');
+            const servicesPage = document.getElementById('servicesPage');
+            const userInfoBar = document.getElementById('userInfoBar');
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const adminBtn = document.getElementById('adminBtn');
+            
+            const avatarUrl = userData.avatar 
+                ? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`
+                : `https://cdn.discordapp.com/embed/avatars/${userData.discriminator % 5}.png`;
+            
+            userAvatar.src = avatarUrl;
+            userName.textContent = userData.username;
+            
+            // Check if user is admin
+            const admins = getAdmins();
+            console.log('🔍 التحقق من صلاحيات المشرف...');
+            console.log('📋 User ID:', userData.id);
+            console.log('👑 Super Admin ID:', ADMIN_CONFIG.SUPER_ADMIN_ID);
+            console.log('👥 قائمة المشرفين:', admins);
+            
+            if (admins.includes(userData.id) || userData.id === ADMIN_CONFIG.SUPER_ADMIN_ID) {
+                console.log('✅ المستخدم مشرف! إظهار الزر...');
+                adminBtn.classList.add('show');
+                adminBtn.style.display = 'inline-block';
+            } else {
+                console.log('❌ المستخدم ليس مشرف');
+                adminBtn.style.display = 'none';
+            }
+            
+            userInfoBar.classList.add('active');
+            welcomePage.style.display = 'none';
+            servicesPage.classList.add('active');
+        }
+
+        // ============================================
+        // Admin Functions
+        // ============================================
+        function isAdmin(userId) {
+            const admins = getAdmins();
+            return admins.includes(userId);
+        }
+
+        function getAdmins() {
+            const stored = localStorage.getItem('admin_ids');
+            if (!stored) {
+                const admins = [ADMIN_CONFIG.SUPER_ADMIN_ID];
+                localStorage.setItem('admin_ids', JSON.stringify(admins));
+                return admins;
+            }
+            
+            const admins = JSON.parse(stored);
+            
+            // إذا القائمة فيها القيمة القديمة، نحدثها
+            if (admins.includes('YOUR_DISCORD_ID_HERE')) {
+                console.log('🔄 تحديث القائمة القديمة...');
+                const newAdmins = [ADMIN_CONFIG.SUPER_ADMIN_ID];
+                localStorage.setItem('admin_ids', JSON.stringify(newAdmins));
+                return newAdmins;
+            }
+            
+            // التأكد من وجود Super Admin
+            if (!admins.includes(ADMIN_CONFIG.SUPER_ADMIN_ID)) {
+                admins.push(ADMIN_CONFIG.SUPER_ADMIN_ID);
+                localStorage.setItem('admin_ids', JSON.stringify(admins));
+            }
+            
+            return admins;
+        }
+
+        function goToAdminPanel() {
+            window.location.href = 'admin.html';
+        }
+
+        // ============================================
+        // Logout Function
+        // ============================================
+        function handleLogout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                localStorage.removeItem('discord_user');
+                localStorage.removeItem('discord_token');
+                location.reload();
+            }
+        }
+
+        // ============================================
+        // Service Selection
+        // ============================================
+        function selectService(service) {
+            currentService = service;
+            currentQuestionIndex = 0;
+            answers = {};
+            
+            const servicesPage = document.getElementById('servicesPage');
+            const questionsPage = document.getElementById('questionsPage');
+            
+            servicesPage.style.animation = 'fadeOut 0.5s ease-out forwards';
+            
+            setTimeout(() => {
+                servicesPage.classList.remove('active');
+                questionsPage.classList.add('active');
+                loadQuestion();
+            }, 500);
+        }
+
+        // ============================================
+        // Load Question
+        // ============================================
+        function loadQuestion() {
+            const questions = questionsData[currentService];
+            const question = questions[currentQuestionIndex];
+            const questionContent = document.getElementById('questionContent');
+            const questionNumber = document.getElementById('questionNumber');
+            const progressFill = document.getElementById('progressFill');
+            const backBtn = document.getElementById('backBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const serviceTitle = document.getElementById('serviceTitle');
+            
+            const titles = {
+                health: 'الصحة',
+                activation: 'التفعيل',
+                police: 'الشرطة',
+                justice: 'العدل'
+            };
+            serviceTitle.textContent = titles[currentService];
+            
+            questionNumber.textContent = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
+            progressFill.style.width = ((currentQuestionIndex + 1) / questions.length * 100) + '%';
+            
+            backBtn.style.display = currentQuestionIndex === 0 ? 'none' : 'inline-block';
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'إرسال';
+                nextBtn.className = 'btn btn-submit';
+            } else {
+                nextBtn.textContent = 'التالي';
+                nextBtn.className = 'btn btn-next';
+            }
+            
+            let html = `<label for="${question.id}">${question.label}</label>`;
+            const savedValue = answers[question.id] || '';
+            
+            if (question.type === 'text' || question.type === 'number') {
+                html += `<input type="${question.type}" id="${question.id}" value="${savedValue}" required>`;
+            } else if (question.type === 'textarea') {
+                html += `<textarea id="${question.id}" required>${savedValue}</textarea>`;
+            } else if (question.type === 'select') {
+                html += `<select id="${question.id}" required>`;
+                html += `<option value="">اختر...</option>`;
+                question.options.forEach(opt => {
+                    const selected = savedValue === opt ? 'selected' : '';
+                    html += `<option value="${opt}" ${selected}>${opt}</option>`;
+                });
+                html += `</select>`;
+            }
+            
+            questionContent.innerHTML = html;
+        }
+
+        // ============================================
+        // Next Question
+        // ============================================
+        function nextQuestion() {
+            const questions = questionsData[currentService];
+            const question = questions[currentQuestionIndex];
+            const input = document.getElementById(question.id);
+            
+            if (!input.value.trim()) {
+                alert('الرجاء الإجابة على السؤال');
+                return;
+            }
+            
+            answers[question.id] = input.value;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                submitForm();
+            } else {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        // ============================================
+        // Previous Question
+        // ============================================
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                const question = questionsData[currentService][currentQuestionIndex];
+                const input = document.getElementById(question.id);
+                answers[question.id] = input.value;
+                
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        // ============================================
+        // Submit Form
+        // ============================================
+        function submitForm() {
+            const userData = getCurrentDiscordUser();
+            
+            // Create submission object
+            const submission = {
+                id: Date.now(),
+                username: userData ? userData.username : 'مستخدم',
+                userId: userData ? userData.id : 'unknown',
+                service: currentService,
+                answers: answers,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            const submissions = JSON.parse(localStorage.getItem('submissions_data') || '[]');
+            submissions.push(submission);
+            localStorage.setItem('submissions_data', JSON.stringify(submissions));
+
+            // Send to Discord Webhook
+            sendToWebhook(submission);
+
+            console.log('Form submitted for service:', currentService);
+            console.log('Answers:', answers);
+            
+            document.querySelector('.question-header').classList.add('hidden');
+            document.querySelector('.question-content').classList.add('hidden');
+            document.querySelector('.btn-container').classList.add('hidden');
+            document.getElementById('successMessage').classList.add('active');
+        }
+
+        // ============================================
+        // Send to Discord Webhook
+        // ============================================
+        async function sendToWebhook(submission) {
+            const webhookUrl = localStorage.getItem(`webhook_${submission.service}_url`);
+            if (!webhookUrl) {
+                console.log('⚠️ لا يوجد webhook لهذه الخدمة');
+                return;
+            }
+
+            const webhookUsername = localStorage.getItem(`webhook_${submission.service}_username`) || 'The West Bot';
+
+            const serviceLabels = {
+                health: '💊 الصحة',
+                activation: '⭐ التفعيل',
+                police: '🚔 الشرطة',
+                justice: '⚖️ العدل'
+            };
+
+            const serviceColors = {
+                health: 0xff4757,
+                activation: 0x5f27cd,
+                police: 0x00d2ff,
+                justice: 0xf1c40f
+            };
+
+            const fields = Object.entries(submission.answers).map(([key, value]) => ({
+                name: key,
+                value: value.toString(),
+                inline: false
+            }));
+
+            try {
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: webhookUsername,
+                        embeds: [{
+                            title: `📋 تقديم جديد - ${serviceLabels[submission.service]}`,
+                            description: `تم استلام تقديم جديد من **${submission.username}**`,
+                            color: serviceColors[submission.service],
+                            fields: fields,
+                            footer: {
+                                text: `User ID: ${submission.userId}`
+                            },
+                            timestamp: submission.timestamp
+                        }]
+                    })
+                });
+                console.log('✅ تم إرسال التقديم إلى Discord');
+            } catch (error) {
+                console.error('❌ خطأ في إرسال Webhook:', error);
+            }
+        }
+
+        function getCurrentDiscordUser() {
+            const stored = localStorage.getItem('discord_user');
+            return stored ? JSON.parse(stored) : null;
+        }
+
+        // ============================================
+        // Back to Services
+        // ============================================
+        function backToServices() {
+            const questionsPage = document.getElementById('questionsPage');
+            const servicesPage = document.getElementById('servicesPage');
+            
+            questionsPage.style.animation = 'fadeOut 0.5s ease-out forwards';
+            
+            setTimeout(() => {
+                questionsPage.classList.remove('active');
+                servicesPage.classList.add('active');
+                
+                document.querySelector('.question-header').classList.remove('hidden');
+                document.querySelector('.question-content').classList.remove('hidden');
+                document.querySelector('.btn-container').classList.remove('hidden');
+                document.getElementById('successMessage').classList.remove('active');
+            }, 500);
+        }
+
+        // ============================================
+        // Add Animations
+        // ============================================
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

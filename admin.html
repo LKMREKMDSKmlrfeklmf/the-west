@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - The West</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://i.ibb.co/QjvZDD92/wqd.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 0, 26, 0.92) 0%, rgba(26, 0, 51, 0.95) 50%, rgba(45, 0, 82, 0.92) 100%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.4), rgba(75, 0, 130, 0.4));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(138, 43, 226, 0.6);
+            border-radius: 25px;
+            padding: 30px 40px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 2.5em;
+            font-weight: 800;
+            text-shadow: 0 0 30px rgba(138, 43, 226, 1), 0 5px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 2px solid rgba(138, 43, 226, 0.5);
+        }
+
+        .admin-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #8a2be2;
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(138, 43, 226, 1);
+            }
+        }
+
+        .admin-details {
+            color: #fff;
+        }
+
+        .admin-name {
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .admin-id {
+            font-size: 0.9em;
+            color: #d1a3ff;
+            font-weight: 600;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .tab-btn {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.25), rgba(75, 0, 130, 0.25));
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            padding: 18px 25px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #fff;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(138, 43, 226, 0.5);
+            border-color: rgba(138, 43, 226, 0.8);
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.35), rgba(75, 0, 130, 0.35));
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #8a2be2, #da70d6);
+            color: white;
+            border-color: #da70d6;
+            box-shadow: 0 8px 35px rgba(138, 43, 226, 0.7);
+            transform: translateY(-3px);
+        }
+
+        /* Cards */
+        .card {
+            background: linear-gradient(135deg, rgba(20, 0, 40, 0.9), rgba(45, 0, 82, 0.95));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.3);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card h2 {
+            color: #fff;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid rgba(138, 43, 226, 0.6);
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
+            font-size: 2em;
+            font-weight: 800;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.4), rgba(75, 0, 130, 0.4));
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(138, 43, 226, 0.6);
+            color: white;
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 10px 35px rgba(138, 43, 226, 0.4);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 45px rgba(138, 43, 226, 0.6);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            color: #f0e6ff;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.15em;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 16px 22px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: rgba(138, 43, 226, 1);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.5);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .form-group textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8a2be2, #da70d6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.6);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Lists */
+        .admin-item,
+        .question-item,
+        .submission-item {
+            background: rgba(26, 0, 51, 0.6);
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 18px;
+            transition: all 0.4s ease;
+        }
+
+        .admin-item:hover,
+        .question-item:hover,
+        .submission-item:hover {
+            background: rgba(45, 0, 82, 0.8);
+            border-color: rgba(138, 43, 226, 0.7);
+            transform: translateX(-8px);
+            box-shadow: 0 5px 25px rgba(138, 43, 226, 0.3);
+        }
+
+        .admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-item-info {
+            color: #fff;
+        }
+
+        .admin-item-info strong {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        .admin-item-info div {
+            color: #d1a3ff;
+            font-size: 0.95em;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        /* Question Item */
+        .question-item h4 {
+            color: #fff;
+            margin-bottom: 18px;
+            font-size: 1.4em;
+            font-weight: 700;
+        }
+
+        .question-detail {
+            color: #f0e6ff;
+            margin-bottom: 12px;
+            padding: 12px 16px;
+            background: rgba(138, 43, 226, 0.15);
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .question-detail strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* Service Tabs */
+        .service-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .service-tab {
+            padding: 14px 20px;
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            border-radius: 14px;
+            background: rgba(138, 43, 226, 0.15);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .service-tab:hover {
+            border-color: rgba(138, 43, 226, 0.7);
+            background: rgba(138, 43, 226, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .webhook-service-card {
+            background: rgba(26, 0, 51, 0.6);
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .webhook-service-card:hover {
+            border-color: rgba(138, 43, 226, 0.7);
+            background: rgba(45, 0, 82, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 25px rgba(138, 43, 226, 0.3);
+        }
+
+        /* Submission Item */
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .submission-user {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        .submission-status {
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 700;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+            border: 2px solid #f59e0b;
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            border: 2px solid #10b981;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            border: 2px solid #ef4444;
+        }
+
+        .submission-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            padding: 16px;
+            background: rgba(138, 43, 226, 0.15);
+            border-radius: 12px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .detail-label {
+            font-size: 0.95em;
+            color: #d1a3ff;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.08em;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 18px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 2px solid #10b981;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 2px solid #ef4444;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border: 2px solid #3b82f6;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #b399ff;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Particle effects */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(138, 43, 226, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 15s infinite;
+            z-index: 0;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .submission-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles -->
+    <div id="particles"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>👑 لوحة الإدارة - The West</h1>
+            <div class="admin-info">
+                <img src="" alt="Admin" class="admin-avatar" id="adminAvatar">
+                <div class="admin-details">
+                    <div class="admin-name" id="adminName">Admin</div>
+                    <div class="admin-id" id="adminId">ID: 000000</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('dashboard')">📊 لوحة التحكم</button>
+            <button class="tab-btn" onclick="showTab('admins')">👥 إدارة المشرفين</button>
+            <button class="tab-btn" onclick="showTab('questions')">❓ إدارة الأسئلة</button>
+            <button class="tab-btn" onclick="showTab('webhook')">🔗 Webhook</button>
+            <button class="tab-btn" onclick="showTab('submissions')">📋 التقديمات</button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSubmissions">0</div>
+                    <div class="stat-label">📊 إجمالي التقديمات</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="pendingSubmissions">0</div>
+                    <div class="stat-label">⏳ في الانتظار</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="approvedSubmissions">0</div>
+                    <div class="stat-label">✅ مقبولة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalAdmins">1</div>
+                    <div class="stat-label">👥 عدد المشرفين</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📈 نظرة عامة</h2>
+                <div style="color: #d1c4e9; line-height: 1.8;">
+                    <p style="margin-bottom: 15px;">مرحباً بك في لوحة الإدارة! من هنا يمكنك:</p>
+                    <ul style="list-style: none; padding-right: 20px;">
+                        <li style="margin-bottom: 10px;">✅ إدارة المشرفين وإضافة مشرفين جدد</li>
+                        <li style="margin-bottom: 10px;">✅ تعديل أسئلة الخدمات الأربعة</li>
+                        <li style="margin-bottom: 10px;">✅ إعداد Discord Webhook لاستقبال التقديمات</li>
+                        <li style="margin-bottom: 10px;">✅ مراجعة وقبول/رفض التقديمات</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admins Tab -->
+        <div id="admins" class="content-section">
+            <div class="card">
+                <h2>👥 إدارة المشرفين</h2>
+                <div class="form-group">
+                    <label>أضف مشرف جديد (Discord User ID)</label>
+                    <div style="display: flex; gap: 12px;">
+                        <input type="text" id="newAdminId" placeholder="مثال: 123456789012345678" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="addAdmin()">➕ إضافة</button>
+                    </div>
+                    <small style="color: #b399ff; display: block; margin-top: 8px;">
+                        💡 يمكنك الحصول على Discord ID من خلال: إعدادات → الوضع المتقدم → انقر بزر الماوس الأيمن على المستخدم → نسخ المعرف
+                    </small>
+                </div>
+
+                <h3 style="margin: 35px 0 20px 0; color: #d1a3ff; font-size: 1.4em;">قائمة المشرفين:</h3>
+                <div id="adminList">
+                    <!-- Admins will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions Tab -->
+        <div id="questions" class="content-section">
+            <div class="card">
+                <h2>❓ إدارة الأسئلة</h2>
+                
+                <div class="service-tabs">
+                    <div class="service-tab active" onclick="showServiceQuestions('health')">💊 الصحة</div>
+                    <div class="service-tab" onclick="showServiceQuestions('activation')">⭐ التفعيل</div>
+                    <div class="service-tab" onclick="showServiceQuestions('police')">🚔 الشرطة</div>
+                    <div class="service-tab" onclick="showServiceQuestions('justice')">⚖️ العدل</div>
+                </div>
+
+                <div id="questionsContainer">
+                    <!-- Questions will be loaded here -->
+                </div>
+
+                <button class="btn btn-success" onclick="addNewQuestion()" style="margin-top: 25px;">➕ إضافة سؤال جديد</button>
+            </div>
+        </div>
+
+        <!-- Webhook Tab -->
+        <div id="webhook" class="content-section">
+            <div class="card">
+                <h2>🔗 إعدادات Discord Webhooks</h2>
+                <p style="color: #f0e6ff; margin-bottom: 30px; line-height: 1.6; font-weight: 600;">
+                    قم بإعداد Webhook منفصل لكل خدمة. سيتم إرسال التقديمات تلقائياً للقناة المحددة.
+                </p>
+
+                <!-- Health Webhook -->
+                <div class="webhook-service-card">
+                    <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.5em;">💊 خدمة الصحة</h3>
+                    <div class="form-group">
+                        <label>🔗 Webhook URL</label>
+                        <input type="url" id="webhookHealthUrl" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+                    <div class="form-group">
+                        <label>🤖 اسم البوت (اختياري)</label>
+                        <input type="text" id="webhookHealthUsername" placeholder="Health Bot" value="The West - Health">
+                    </div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="saveWebhook('health')">💾 حفظ</button>
+                        <button class="btn btn-warning" onclick="testWebhook('health')">🧪 اختبار</button>
+                    </div>
+                </div>
+
+                <!-- Activation Webhook -->
+                <div class="webhook-service-card">
+                    <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.5em;">⭐ خدمة التفعيل</h3>
+                    <div class="form-group">
+                        <label>🔗 Webhook URL</label>
+                        <input type="url" id="webhookActivationUrl" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+                    <div class="form-group">
+                        <label>🤖 اسم البوت (اختياري)</label>
+                        <input type="text" id="webhookActivationUsername" placeholder="Activation Bot" value="The West - Activation">
+                    </div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="saveWebhook('activation')">💾 حفظ</button>
+                        <button class="btn btn-warning" onclick="testWebhook('activation')">🧪 اختبار</button>
+                    </div>
+                </div>
+
+                <!-- Police Webhook -->
+                <div class="webhook-service-card">
+                    <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.5em;">🚔 خدمة الشرطة</h3>
+                    <div class="form-group">
+                        <label>🔗 Webhook URL</label>
+                        <input type="url" id="webhookPoliceUrl" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+                    <div class="form-group">
+                        <label>🤖 اسم البوت (اختياري)</label>
+                        <input type="text" id="webhookPoliceUsername" placeholder="Police Bot" value="The West - Police">
+                    </div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="saveWebhook('police')">💾 حفظ</button>
+                        <button class="btn btn-warning" onclick="testWebhook('police')">🧪 اختبار</button>
+                    </div>
+                </div>
+
+                <!-- Justice Webhook -->
+                <div class="webhook-service-card">
+                    <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.5em;">⚖️ خدمة العدل</h3>
+                    <div class="form-group">
+                        <label>🔗 Webhook URL</label>
+                        <input type="url" id="webhookJusticeUrl" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+                    <div class="form-group">
+                        <label>🤖 اسم البوت (اختياري)</label>
+                        <input type="text" id="webhookJusticeUsername" placeholder="Justice Bot" value="The West - Justice">
+                    </div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="saveWebhook('justice')">💾 حفظ</button>
+                        <button class="btn btn-warning" onclick="testWebhook('justice')">🧪 اختبار</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submissions Tab -->
+        <div id="submissions" class="content-section">
+            <div class="card">
+                <h2>📋 التقديمات</h2>
+                
+                <div style="display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="filterSubmissions('all')">الكل</button>
+                    <button class="btn btn-warning" onclick="filterSubmissions('pending')">⏳ في الانتظار</button>
+                    <button class="btn btn-success" onclick="filterSubmissions('approved')">✅ مقبولة</button>
+                    <button class="btn btn-danger" onclick="filterSubmissions('rejected')">❌ مرفوضة</button>
+                </div>
+
+                <div id="submissionsContainer">
+                    <!-- Submissions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🔒 Smart Code Protection System
+        (function() {
+            'use strict';
+            
+            // منع النقر بزر الماوس الأيمن
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            // منع جميع اختصارات لوحة المفاتيح
+            document.addEventListener('keydown', function(e) {
+                // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S
+                if (e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 73) ||
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 74) ||
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 67) ||
+                    (e.ctrlKey && e.keyCode === 85) ||
+                    (e.ctrlKey && e.keyCode === 83)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }, false);
+
+            // منع التحديد والنسخ
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            // منع السحب
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            }, false);
+        })();
+
+        // ============================================
+        // Configuration
+        // ============================================
+        const ADMIN_CONFIG = {
+            // 🔥 ضع Discord User ID الخاص بك هنا
+            SUPER_ADMIN_ID: '1352958103246606366',  // مثال: '123456789012345678'
+        };
+
+        let currentUser = null;
+        let currentServiceForQuestions = 'health';
+        let currentFilter = 'all';
+
+        // ============================================
+        // Initialize
+        // ============================================
+        window.addEventListener('DOMContentLoaded', () => {
+            // Create particles
+            createParticles();
+
+            // Check if user is logged in
+            const savedUser = localStorage.getItem('discord_user');
+            if (!savedUser) {
+                alert('⚠️ يجب تسجيل الدخول أولاً!');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            currentUser = JSON.parse(savedUser);
+
+            console.log('👤 المستخدم الحالي:', currentUser);
+            console.log('🆔 User ID:', currentUser.id);
+            console.log('👑 Super Admin ID:', ADMIN_CONFIG.SUPER_ADMIN_ID);
+            console.log('👥 قائمة المشرفين:', getAdmins());
+
+            // Check if user is admin
+            if (!isAdmin(currentUser.id)) {
+                console.log('❌ ليس لديك صلاحيات!');
+                alert('❌ ليس لديك صلاحية الوصول لهذه الصفحة!');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            console.log('✅ مرحباً بالمشرف!');
+
+            // Load admin info
+            document.getElementById('adminName').textContent = currentUser.username;
+            document.getElementById('adminId').textContent = `ID: ${currentUser.id}`;
+            const avatarUrl = currentUser.avatar 
+                ? `https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png`
+                : `https://cdn.discordapp.com/embed/avatars/${currentUser.discriminator % 5}.png`;
+            document.getElementById('adminAvatar').src = avatarUrl;
+
+            // Load data
+            loadDashboardStats();
+            loadAdminsList();
+            loadQuestions();
+            loadWebhookSettings();
+            loadSubmissions();
+        });
+
+        // ============================================
+        // Particles
+        // ============================================
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // ============================================
+        // Tab Navigation
+        // ============================================
+        function showTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // ============================================
+        // Alert System
+        // ============================================
+        function showAlert(type, message) {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // ============================================
+        // Admin Management
+        // ============================================
+        function isAdmin(userId) {
+            console.log('🔍 التحقق من الصلاحيات...');
+            console.log('User ID المدخل:', userId);
+            console.log('Super Admin ID:', ADMIN_CONFIG.SUPER_ADMIN_ID);
+            console.log('هل متطابق؟', userId === ADMIN_CONFIG.SUPER_ADMIN_ID);
+            
+            const admins = getAdmins();
+            console.log('قائمة المشرفين:', admins);
+            console.log('هل موجود في القائمة؟', admins.includes(userId));
+            
+            return admins.includes(userId) || userId === ADMIN_CONFIG.SUPER_ADMIN_ID;
+        }
+
+        function getAdmins() {
+            const stored = localStorage.getItem('admin_ids');
+            console.log('📦 المخزن:', stored);
+            
+            if (!stored) {
+                const admins = [ADMIN_CONFIG.SUPER_ADMIN_ID];
+                console.log('✨ إنشاء قائمة جديدة:', admins);
+                localStorage.setItem('admin_ids', JSON.stringify(admins));
+                return admins;
+            }
+            
+            const admins = JSON.parse(stored);
+            console.log('📋 القائمة الموجودة:', admins);
+            
+            // التأكد من وجود Super Admin
+            if (!admins.includes(ADMIN_CONFIG.SUPER_ADMIN_ID)) {
+                console.log('⚠️ Super Admin غير موجود، إضافته...');
+                admins.push(ADMIN_CONFIG.SUPER_ADMIN_ID);
+                localStorage.setItem('admin_ids', JSON.stringify(admins));
+            }
+            
+            return admins;
+        }
+
+        function addAdmin() {
+            const newAdminId = document.getElementById('newAdminId').value.trim();
+            if (!newAdminId) {
+                showAlert('error', '⚠️ الرجاء إدخال Discord User ID');
+                return;
+            }
+
+            const admins = getAdmins();
+            if (admins.includes(newAdminId)) {
+                showAlert('error', '⚠️ هذا المستخدم مشرف بالفعل!');
+                return;
+            }
+
+            admins.push(newAdminId);
+            localStorage.setItem('admin_ids', JSON.stringify(admins));
+            document.getElementById('newAdminId').value = '';
+            loadAdminsList();
+            loadDashboardStats();
+            showAlert('success', '✅ تم إضافة المشرف بنجاح!');
+        }
+
+        function removeAdmin(adminId) {
+            if (adminId === ADMIN_CONFIG.SUPER_ADMIN_ID) {
+                showAlert('error', '❌ لا يمكن حذف المشرف الرئيسي!');
+                return;
+            }
+
+            if (!confirm('هل أنت متأكد من حذف هذا المشرف؟')) {
+                return;
+            }
+
+            let admins = getAdmins();
+            admins = admins.filter(id => id !== adminId);
+            localStorage.setItem('admin_ids', JSON.stringify(admins));
+            loadAdminsList();
+            loadDashboardStats();
+            showAlert('success', '✅ تم حذف المشرف بنجاح!');
+        }
+
+        function loadAdminsList() {
+            const admins = getAdmins();
+            const container = document.getElementById('adminList');
+            
+            if (admins.length === 0) {
+                container.innerHTML = '<div class="empty-state">لا يوجد مشرفين</div>';
+                return;
+            }
+
+            container.innerHTML = admins.map((adminId, index) => `
+                <div class="admin-item">
+                    <div class="admin-item-info">
+                        <strong>${adminId === ADMIN_CONFIG.SUPER_ADMIN_ID ? '👑 ' : ''}المشرف #${index + 1}</strong>
+                        <div>ID: ${adminId}</div>
+                    </div>
+                    ${adminId !== ADMIN_CONFIG.SUPER_ADMIN_ID ? 
+                        `<button class="btn btn-danger" onclick="removeAdmin('${adminId}')">🗑️ حذف</button>` : 
+                        '<span style="color: #e6b3ff; font-weight: bold;">المشرف الرئيسي</span>'}
+                </div>
+            `).join('');
+        }
+
+        // ============================================
+        // Questions Management
+        // ============================================
+        function getQuestions() {
+            const stored = localStorage.getItem('questions_data');
+            if (!stored) {
+                const defaultQuestions = {
+                    health: [
+                        { type: 'text', label: 'ما هو اسمك الكامل؟', id: 'name' },
+                        { type: 'number', label: 'كم عمرك؟', id: 'age' },
+                        { type: 'select', label: 'ما نوع الحالة الصحية؟', id: 'condition', options: ['إصابة', 'مرض', 'فحص عام', 'أخرى'] },
+                        { type: 'text', label: 'أين موقعك الحالي؟', id: 'location' },
+                        { type: 'textarea', label: 'اشرح حالتك بالتفصيل', id: 'details' }
+                    ],
+                    activation: [
+                        { type: 'text', label: 'ما هو اسم الحساب؟', id: 'username' },
+                        { type: 'text', label: 'ما هو بريدك الإلكتروني؟', id: 'email' },
+                        { type: 'select', label: 'نوع التفعيل المطلوب', id: 'activation_type', options: ['تفعيل جديد', 'إعادة تفعيل', 'ترقية حساب', 'أخرى'] },
+                        { type: 'text', label: 'رقم الهوية أو المعرف', id: 'id_number' },
+                        { type: 'textarea', label: 'معلومات إضافية', id: 'additional_info' }
+                    ],
+                    police: [
+                        { type: 'text', label: 'ما هو اسمك الكامل؟', id: 'reporter_name' },
+                        { type: 'select', label: 'نوع البلاغ', id: 'report_type', options: ['سرقة', 'حادث', 'مشاجرة', 'أخرى'] },
+                        { type: 'text', label: 'مكان الحادثة', id: 'incident_location' },
+                        { type: 'text', label: 'وقت الحادثة', id: 'incident_time' },
+                        { type: 'textarea', label: 'تفاصيل البلاغ', id: 'report_details' }
+                    ],
+                    justice: [
+                        { type: 'text', label: 'ما هو اسمك الكامل؟', id: 'plaintiff_name' },
+                        { type: 'select', label: 'نوع القضية', id: 'case_type', options: ['مدني', 'جنائي', 'تجاري', 'أخرى'] },
+                        { type: 'text', label: 'الطرف الثاني', id: 'defendant_name' },
+                        { type: 'text', label: 'رقم الهوية', id: 'id_number' },
+                        { type: 'textarea', label: 'تفاصيل القضية', id: 'case_details' }
+                    ]
+                };
+                localStorage.setItem('questions_data', JSON.stringify(defaultQuestions));
+                return defaultQuestions;
+            }
+            return JSON.parse(stored);
+        }
+
+        function saveQuestions(questions) {
+            localStorage.setItem('questions_data', JSON.stringify(questions));
+        }
+
+        function showServiceQuestions(service) {
+            currentServiceForQuestions = service;
+            document.querySelectorAll('.service-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            loadQuestions();
+        }
+
+        function loadQuestions() {
+            const questions = getQuestions();
+            const serviceQuestions = questions[currentServiceForQuestions] || [];
+            const container = document.getElementById('questionsContainer');
+
+            const typeLabels = {
+                'text': '📝 نص',
+                'number': '🔢 رقم',
+                'textarea': '📄 نص طويل',
+                'select': '📋 اختيار متعدد'
+            };
+
+            if (serviceQuestions.length === 0) {
+                container.innerHTML = '<div class="empty-state">لا توجد أسئلة</div>';
+                return;
+            }
+
+            container.innerHTML = serviceQuestions.map((q, index) => `
+                <div class="question-item">
+                    <h4>سؤال #${index + 1}</h4>
+                    <div class="question-detail"><strong>النوع:</strong> ${typeLabels[q.type]}</div>
+                    <div class="question-detail"><strong>السؤال:</strong> ${q.label}</div>
+                    <div class="question-detail"><strong>المعرف:</strong> ${q.id}</div>
+                    ${q.options ? `<div class="question-detail"><strong>الخيارات:</strong> ${q.options.join(', ')}</div>` : ''}
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn btn-warning" onclick="editQuestion(${index})">✏️ تعديل</button>
+                        <button class="btn btn-danger" onclick="deleteQuestion(${index})">🗑️ حذف</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addNewQuestion() {
+            const label = prompt('أدخل نص السؤال:');
+            if (!label) return;
+
+            const id = prompt('أدخل معرف السؤال (بالإنجليزية، بدون مسافات):');
+            if (!id) return;
+
+            const type = prompt('نوع السؤال:\n1- text (نص)\n2- number (رقم)\n3- textarea (نص طويل)\n4- select (اختيار متعدد)\n\nأدخل الرقم:');
+            const types = ['text', 'number', 'textarea', 'select'];
+            const selectedType = types[parseInt(type) - 1];
+
+            if (!selectedType) {
+                showAlert('error', '❌ نوع غير صحيح!');
+                return;
+            }
+
+            const newQuestion = {
+                type: selectedType,
+                label: label,
+                id: id
+            };
+
+            if (selectedType === 'select') {
+                const options = prompt('أدخل الخيارات مفصولة بفاصلة:');
+                if (options) {
+                    newQuestion.options = options.split(',').map(o => o.trim());
+                }
+            }
+
+            const questions = getQuestions();
+            questions[currentServiceForQuestions].push(newQuestion);
+            saveQuestions(questions);
+            loadQuestions();
+            showAlert('success', '✅ تم إضافة السؤال بنجاح!');
+        }
+
+        function editQuestion(index) {
+            const questions = getQuestions();
+            const question = questions[currentServiceForQuestions][index];
+
+            const newLabel = prompt('تعديل نص السؤال:', question.label);
+            if (newLabel) {
+                question.label = newLabel;
+                saveQuestions(questions);
+                loadQuestions();
+                showAlert('success', '✅ تم تعديل السؤال بنجاح!');
+            }
+        }
+
+        function deleteQuestion(index) {
+            if (!confirm('هل أنت متأكد من حذف هذا السؤال؟')) return;
+
+            const questions = getQuestions();
+            questions[currentServiceForQuestions].splice(index, 1);
+            saveQuestions(questions);
+            loadQuestions();
+            showAlert('success', '✅ تم حذف السؤال بنجاح!');
+        }
+
+        // ============================================
+        // Webhook Management
+        // ============================================
+        function loadWebhookSettings() {
+            // Load Health
+            const healthUrl = localStorage.getItem('webhook_health_url') || '';
+            const healthUsername = localStorage.getItem('webhook_health_username') || 'The West - Health';
+            document.getElementById('webhookHealthUrl').value = healthUrl;
+            document.getElementById('webhookHealthUsername').value = healthUsername;
+
+            // Load Activation
+            const activationUrl = localStorage.getItem('webhook_activation_url') || '';
+            const activationUsername = localStorage.getItem('webhook_activation_username') || 'The West - Activation';
+            document.getElementById('webhookActivationUrl').value = activationUrl;
+            document.getElementById('webhookActivationUsername').value = activationUsername;
+
+            // Load Police
+            const policeUrl = localStorage.getItem('webhook_police_url') || '';
+            const policeUsername = localStorage.getItem('webhook_police_username') || 'The West - Police';
+            document.getElementById('webhookPoliceUrl').value = policeUrl;
+            document.getElementById('webhookPoliceUsername').value = policeUsername;
+
+            // Load Justice
+            const justiceUrl = localStorage.getItem('webhook_justice_url') || '';
+            const justiceUsername = localStorage.getItem('webhook_justice_username') || 'The West - Justice';
+            document.getElementById('webhookJusticeUrl').value = justiceUrl;
+            document.getElementById('webhookJusticeUsername').value = justiceUsername;
+        }
+
+        function saveWebhook(service) {
+            const serviceNames = {
+                health: 'Health',
+                activation: 'Activation',
+                police: 'Police',
+                justice: 'Justice'
+            };
+
+            const urlField = `webhook${serviceNames[service]}Url`;
+            const usernameField = `webhook${serviceNames[service]}Username`;
+
+            const webhookUrl = document.getElementById(urlField).value.trim();
+            const webhookUsername = document.getElementById(usernameField).value.trim() || `The West - ${serviceNames[service]}`;
+
+            if (!webhookUrl) {
+                showAlert('error', '⚠️ الرجاء إدخال Webhook URL');
+                return;
+            }
+
+            if (!webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
+                showAlert('error', '❌ Webhook URL غير صحيح!');
+                return;
+            }
+
+            localStorage.setItem(`webhook_${service}_url`, webhookUrl);
+            localStorage.setItem(`webhook_${service}_username`, webhookUsername);
+            showAlert('success', `✅ تم حفظ إعدادات ${serviceNames[service]} بنجاح!`);
+        }
+
+        async function testWebhook(service) {
+            const webhookUrl = localStorage.getItem(`webhook_${service}_url`);
+            if (!webhookUrl) {
+                showAlert('error', '⚠️ يجب حفظ Webhook URL أولاً!');
+                return;
+            }
+
+            const webhookUsername = localStorage.getItem(`webhook_${service}_username`) || 'The West Bot';
+
+            const serviceLabels = {
+                health: '💊 الصحة',
+                activation: '⭐ التفعيل',
+                police: '🚔 الشرطة',
+                justice: '⚖️ العدل'
+            };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: webhookUsername,
+                        embeds: [{
+                            title: `🧪 رسالة اختبار - ${serviceLabels[service]}`,
+                            description: `Webhook ${serviceLabels[service]} يعمل بنجاح! ✅`,
+                            color: 0x8a2be2,
+                            timestamp: new Date().toISOString()
+                        }]
+                    })
+                });
+
+                if (response.ok) {
+                    showAlert('success', '✅ تم إرسال رسالة الاختبار بنجاح!');
+                } else {
+                    showAlert('error', '❌ فشل إرسال الرسالة! تحقق من الـ URL');
+                }
+            } catch (error) {
+                showAlert('error', '❌ حدث خطأ: ' + error.message);
+            }
+        }
+
+        // ============================================
+        // Submissions Management
+        // ============================================
+        function getSubmissions() {
+            const stored = localStorage.getItem('submissions_data');
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function saveSubmissions(submissions) {
+            localStorage.setItem('submissions_data', JSON.stringify(submissions));
+        }
+
+        function filterSubmissions(status) {
+            currentFilter = status;
+            loadSubmissions();
+        }
+
+        function loadSubmissions() {
+            const submissions = getSubmissions();
+            const container = document.getElementById('submissionsContainer');
+
+            let filtered = submissions;
+            if (currentFilter !== 'all') {
+                filtered = submissions.filter(s => s.status === currentFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="empty-state">لا توجد تقديمات</div>';
+                return;
+            }
+
+            const serviceLabels = {
+                health: '💊 الصحة',
+                activation: '⭐ التفعيل',
+                police: '🚔 الشرطة',
+                justice: '⚖️ العدل'
+            };
+
+            container.innerHTML = filtered.map((submission, index) => `
+                <div class="submission-item">
+                    <div class="submission-header">
+                        <div>
+                            <div class="submission-user">${submission.username || 'مستخدم'}</div>
+                            <div style="color: #b399ff; font-size: 0.9em; margin-top: 5px;">
+                                ${serviceLabels[submission.service]} • ${new Date(submission.timestamp).toLocaleString('ar')}
+                            </div>
+                        </div>
+                        <span class="submission-status status-${submission.status}">
+                            ${submission.status === 'pending' ? '⏳ في الانتظار' : 
+                              submission.status === 'approved' ? '✅ مقبول' : '❌ مرفوض'}
+                        </span>
+                    </div>
+                    <div class="submission-details">
+                        ${Object.entries(submission.answers).map(([key, value]) => `
+                            <div class="detail-item">
+                                <div class="detail-label">${key}</div>
+                                <div class="detail-value">${value}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${submission.status === 'pending' ? `
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button class="btn btn-success" onclick="approveSubmission(${index})">✅ قبول</button>
+                            <button class="btn btn-danger" onclick="rejectSubmission(${index})">❌ رفض</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function approveSubmission(index) {
+            const submissions = getSubmissions();
+            submissions[index].status = 'approved';
+            saveSubmissions(submissions);
+            loadSubmissions();
+            loadDashboardStats();
+            showAlert('success', '✅ تم قبول التقديم!');
+        }
+
+        function rejectSubmission(index) {
+            const submissions = getSubmissions();
+            submissions[index].status = 'rejected';
+            saveSubmissions(submissions);
+            loadSubmissions();
+            loadDashboardStats();
+            showAlert('info', 'تم رفض التقديم');
+        }
+
+        // ============================================
+        // Dashboard Stats
+        // ============================================
+        function loadDashboardStats() {
+            const submissions = getSubmissions();
+            const admins = getAdmins();
+
+            document.getElementById('totalSubmissions').textContent = submissions.length;
+            document.getElementById('pendingSubmissions').textContent = submissions.filter(s => s.status === 'pending').length;
+            document.getElementById('approvedSubmissions').textContent = submissions.filter(s => s.status === 'approved').length;
+            document.getElementById('totalAdmins').textContent = admins.length;
+        }
+    </script>
+</body>
+</html>
