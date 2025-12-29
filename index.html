@@ -740,8 +740,8 @@
         // Discord Configuration
         // ============================================
         const DISCORD_CONFIG = {
-            CLIENT_ID: '1441190288600203404',              // ضع Client ID هنا
-            REDIRECT_URI: 'https://west-apply.netlify.app/',         // ضع رابط موقعك هنا
+            CLIENT_ID: 'YOUR_CLIENT_ID',              // ضع Client ID هنا
+            REDIRECT_URI: 'YOUR_WEBSITE_URL',         // ضع رابط موقعك هنا
         };
 
         // Admin Configuration
@@ -921,10 +921,22 @@
             console.log('👑 Super Admin ID:', ADMIN_CONFIG.SUPER_ADMIN_ID);
             console.log('👥 قائمة المشرفين:', admins);
             
+            // Check if device is mobile
+            const isMobile = window.innerWidth <= 768;
+            
             if (admins.includes(userData.id) || userData.id === ADMIN_CONFIG.SUPER_ADMIN_ID) {
-                console.log('✅ المستخدم مشرف! إظهار الزر...');
-                adminBtn.classList.add('show');
-                adminBtn.style.display = 'inline-block';
+                console.log('✅ المستخدم مشرف!');
+                
+                // Only show button if NOT mobile
+                if (!isMobile) {
+                    console.log('💻 جهاز كمبيوتر - إظهار الزر');
+                    adminBtn.classList.add('show');
+                    adminBtn.style.display = 'inline-block';
+                } else {
+                    console.log('📱 جهاز جوال - إخفاء الزر');
+                    adminBtn.style.display = 'none';
+                    adminBtn.classList.remove('show');
+                }
             } else {
                 console.log('❌ المستخدم ليس مشرف');
                 adminBtn.style.display = 'none';
