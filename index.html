@@ -534,14 +534,9 @@
 
 <!-- User Info Bar -->
 <div class="user-info-bar" id="userInfoBar">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
-        <span class="user-name" id="userName"></span>
-    </div>
-    <div style="display: flex; gap: 10px;">
-        <button class="admin-btn" id="adminBtn" onclick="goToAdminPanel()">👑 لوحة الإدارة</button>
-        <button class="logout-btn" onclick="handleLogout()">تسجيل خروج</button>
-    </div>
+    <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+    <span class="user-name" id="userName"></span>
+    <button class="logout-btn" onclick="handleLogout()">تسجيل خروج</button>
 </div>
 
     <div class="container">
@@ -654,7 +649,15 @@
                     <p>الخدمات القضائية والقانونية</p>
                 </div>
             </div>
-        </div>
+
+            <!-- Admin Panel Button -->
+            <div id="adminPanelCard" style="display: none; margin-top: 30px; text-align: center;">
+                <button class="service-card" onclick="goToAdminPanel()" style="cursor: pointer; border: 3px solid #8a2be2; background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(75, 0, 130, 0.3)); padding: 30px; max-width: 500px; margin: 0 auto; display: block;">
+                    <div class="service-icon" style="font-size: 4em; margin-bottom: 15px;">👑</div>
+                    <h3 style="color: #fff; font-size: 2em; margin-bottom: 10px;">لوحة الإدارة</h3>
+                    <p style="color: #d1a3ff; font-size: 1.2em;">إدارة المشرفين والأسئلة والتقديمات</p>
+                </button>
+            </div>
 
         <!-- Questions Page -->
         <div class="questions-page" id="questionsPage">
@@ -925,13 +928,18 @@ console.log('📋 User ID:', userData.id);
 console.log('👑 Super Admin ID:', ADMIN_CONFIG.SUPER_ADMIN_ID);
 console.log('👥 قائمة المشرفين:', admins);
 
+// Show admin panel card if user is admin
+const adminPanelCard = document.getElementById('adminPanelCard');
 if (admins.includes(userData.id) || userData.id === ADMIN_CONFIG.SUPER_ADMIN_ID) {
     console.log('✅ المستخدم مشرف!');
-    adminBtn.classList.add('show');
-    adminBtn.style.display = 'inline-block';
+    if (adminPanelCard) {
+        adminPanelCard.style.display = 'block';
+    }
 } else {
     console.log('❌ المستخدم ليس مشرف');
-    adminBtn.style.display = 'none';
+    if (adminPanelCard) {
+        adminPanelCard.style.display = 'none';
+    }
 }
 
 userInfoBar.classList.add('active');
