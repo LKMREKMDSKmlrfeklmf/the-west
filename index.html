@@ -532,13 +532,13 @@
     <!-- Particles -->
     <div id="particles"></div>
 
-    <!-- User Info Bar -->
-    <div class="user-info-bar" id="userInfoBar">
-        <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
-        <span class="user-name" id="userName"></span>
-        <button class="admin-btn" id="adminBtn" onclick="goToAdminPanel()">👑 لوحة الإدارة</button>
-        <button class="logout-btn" onclick="handleLogout()">تسجيل خروج</button>
-    </div>
+<!-- User Info Bar -->
+<div class="user-info-bar" id="userInfoBar">
+    <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+    <span class="user-name" id="userName"></span>
+    <button class="admin-btn" id="adminBtn" onclick="goToAdminPanel()">👑 لوحة الإدارة</button>
+    <button class="logout-btn" onclick="handleLogout()">تسجيل خروج</button>
+</div>
 
     <div class="container">
         <!-- Welcome Page -->
@@ -925,18 +925,15 @@
             const isMobile = window.innerWidth <= 768;
             
             if (admins.includes(userData.id) || userData.id === ADMIN_CONFIG.SUPER_ADMIN_ID) {
-                console.log('✅ المستخدم مشرف!');
-                
-                // Only show button if NOT mobile
-                if (!isMobile) {
-                    console.log('💻 جهاز كمبيوتر - إظهار الزر');
-                    adminBtn.classList.add('show');
-                    adminBtn.style.display = 'inline-block';
-                } else {
-                    console.log('📱 جهاز جوال - إخفاء الزر');
-                    adminBtn.style.display = 'none';
-                    adminBtn.classList.remove('show');
-                }
+    console.log('✅ المستخدم مشرف!');
+    adminBtn.classList.add('show');
+    adminBtn.style.display = 'inline-block';
+} else {
+        console.log('📱 جهاز جوال - إخفاء الزر');
+        adminBtn.style.display = 'none';
+        adminBtn.classList.remove('show');
+    }
+}
             } else {
                 console.log('❌ المستخدم ليس مشرف');
                 adminBtn.style.display = 'none';
