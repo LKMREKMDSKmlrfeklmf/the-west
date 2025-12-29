@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدمة التفعيل - The West</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-image: url('https://i.ibb.co/QjvZDD92/wqd.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 0, 26, 0.92) 0%, rgba(26, 0, 51, 0.95) 50%, rgba(45, 0, 82, 0.92) 100%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            border-radius: 25px;
+            padding: 50px 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .service-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(95, 39, 205, 0.6));
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
+        }
+
+        .subtitle {
+            color: #d1a3ff;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3742fa, #5f27cd);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .question-number {
+            text-align: center;
+            color: #fff;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #fff;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1em;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #5f27cd;
+            box-shadow: 0 0 20px rgba(95, 39, 205, 0.4);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group select option {
+            background: #1a0033;
+            color: #fff;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #3742fa, #5f27cd);
+            color: white;
+            box-shadow: 0 8px 20px rgba(95, 39, 205, 0.4);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(95, 39, 205, 0.6);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: white;
+            box-shadow: 0 8px 20px rgba(58, 123, 213, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(58, 123, 213, 0.6);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .success-message h2 {
+            color: #00d2ff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            color: #fff;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <div class="header">
+                <div class="service-icon">⭐</div>
+                <h1>خدمة التفعيل</h1>
+                <p class="subtitle">تفعيل الحسابات والخدمات</p>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+            </div>
+
+            <div class="question-number" id="questionNumber">السؤال 1 من 5</div>
+
+            <form id="activationForm">
+                <div id="questionContent"></div>
+
+                <div class="btn-container">
+                    <button type="button" class="btn btn-back" id="backBtn" onclick="previousQuestion()">رجوع</button>
+                    <button type="button" class="btn btn-next" id="nextBtn" onclick="nextQuestion()">التالي</button>
+                </div>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✅</div>
+                <h2>تم الإرسال بنجاح!</h2>
+                <p>شكراً لك، سيتم مراجعة طلبك قريباً</p>
+                <button class="btn btn-next" onclick="backToHome()">العودة للرئيسية</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { type: 'text', label: 'ما هو اسم الحساب؟', id: 'username' },
+            { type: 'text', label: 'ما هو بريدك الإلكتروني؟', id: 'email' },
+            { type: 'select', label: 'نوع التفعيل المطلوب', id: 'activation_type', options: ['تفعيل جديد', 'إعادة تفعيل', 'ترقية حساب', 'أخرى'] },
+            { type: 'text', label: 'رقم الهوية أو المعرف', id: 'id_number' },
+            { type: 'textarea', label: 'معلومات إضافية', id: 'additional_info' }
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = {};
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+            const questionContent = document.getElementById('questionContent');
+            const questionNumber = document.getElementById('questionNumber');
+            const progressFill = document.getElementById('progressFill');
+            const backBtn = document.getElementById('backBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            questionNumber.textContent = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
+            progressFill.style.width = ((currentQuestionIndex + 1) / questions.length * 100) + '%';
+
+            backBtn.style.display = currentQuestionIndex === 0 ? 'none' : 'inline-block';
+
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'إرسال';
+                nextBtn.className = 'btn btn-submit';
+            } else {
+                nextBtn.textContent = 'التالي';
+                nextBtn.className = 'btn btn-next';
+            }
+
+            let html = `<div class="form-group"><label for="${question.id}">${question.label}</label>`;
+            const savedValue = answers[question.id] || '';
+
+            if (question.type === 'text' || question.type === 'number') {
+                html += `<input type="${question.type}" id="${question.id}" value="${savedValue}" required>`;
+            } else if (question.type === 'textarea') {
+                html += `<textarea id="${question.id}" required>${savedValue}</textarea>`;
+            } else if (question.type === 'select') {
+                html += `<select id="${question.id}" required><option value="">اختر...</option>`;
+                question.options.forEach(opt => {
+                    const selected = savedValue === opt ? 'selected' : '';
+                    html += `<option value="${opt}" ${selected}>${opt}</option>`;
+                });
+                html += `</select>`;
+            }
+
+            html += `</div>`;
+            questionContent.innerHTML = html;
+        }
+
+        function nextQuestion() {
+            const question = questions[currentQuestionIndex];
+            const input = document.getElementById(question.id);
+
+            if (!input.value.trim()) {
+                alert('الرجاء الإجابة على السؤال');
+                return;
+            }
+
+            answers[question.id] = input.value;
+
+            if (currentQuestionIndex === questions.length - 1) {
+                submitForm();
+            } else {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                const question = questions[currentQuestionIndex];
+                const input = document.getElementById(question.id);
+                answers[question.id] = input.value;
+
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        async function submitForm() {
+            const userData = JSON.parse(localStorage.getItem('discord_user') || '{}');
+
+            const submission = {
+                id: Date.now(),
+                username: userData.username || 'مستخدم',
+                userId: userData.id || 'unknown',
+                service: 'activation',
+                answers: answers,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                await window.storage.set(`submission:activation:${submission.id}`, JSON.stringify(submission), true);
+
+                const webhookUrl = localStorage.getItem('webhook_activation_url');
+                if (webhookUrl) {
+                    await sendToWebhook(submission, webhookUrl);
+                }
+
+                console.log('✅ تم حفظ التقديم:', submission);
+                
+                document.getElementById('activationForm').classList.add('hidden');
+                document.querySelector('.progress-bar').classList.add('hidden');
+                document.querySelector('.question-number').classList.add('hidden');
+                document.getElementById('successMessage').classList.add('active');
+
+            } catch (error) {
+                console.error('❌ خطأ في الحفظ:', error);
+                alert('حدث خطأ في إرسال التقديم. يرجى المحاولة مرة أخرى.');
+            }
+        }
+
+        async function sendToWebhook(submission, webhookUrl) {
+            const webhookUsername = localStorage.getItem('webhook_activation_username') || 'The West - Activation';
+            
+            const fields = Object.entries(submission.answers).map(([key, value]) => ({
+                name: key,
+                value: value.toString(),
+                inline: false
+            }));
+
+            try {
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: webhookUsername,
+                        embeds: [{
+                            title: '⭐ تقديم جديد - خدمة التفعيل',
+                            description: `تم استلام تقديم جديد من **${submission.username}**`,
+                            color: 0x5f27cd,
+                            fields: fields,
+                            footer: { text: `User ID: ${submission.userId}` },
+                            timestamp: submission.timestamp
+                        }]
+                    })
+                });
+            } catch (error) {
+                console.error('❌ خطأ في Webhook:', error);
+            }
+        }
+
+        function backToHome() {
+            window.location.href = 'index.html';
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
