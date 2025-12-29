@@ -915,33 +915,24 @@
             userName.textContent = userData.username;
             
             // Check if user is admin
-            const admins = getAdmins();
-            console.log('🔍 التحقق من صلاحيات المشرف...');
-            console.log('📋 User ID:', userData.id);
-            console.log('👑 Super Admin ID:', ADMIN_CONFIG.SUPER_ADMIN_ID);
-            console.log('👥 قائمة المشرفين:', admins);
-            
-            // Check if device is mobile
-            const isMobile = window.innerWidth <= 768;
-            
-            if (admins.includes(userData.id) || userData.id === ADMIN_CONFIG.SUPER_ADMIN_ID) {
+const admins = getAdmins();
+console.log('🔍 التحقق من صلاحيات المشرف...');
+console.log('📋 User ID:', userData.id);
+console.log('👑 Super Admin ID:', ADMIN_CONFIG.SUPER_ADMIN_ID);
+console.log('👥 قائمة المشرفين:', admins);
+
+if (admins.includes(userData.id) || userData.id === ADMIN_CONFIG.SUPER_ADMIN_ID) {
     console.log('✅ المستخدم مشرف!');
     adminBtn.classList.add('show');
     adminBtn.style.display = 'inline-block';
 } else {
-        console.log('📱 جهاز جوال - إخفاء الزر');
-        adminBtn.style.display = 'none';
-        adminBtn.classList.remove('show');
-    }
+    console.log('❌ المستخدم ليس مشرف');
+    adminBtn.style.display = 'none';
 }
-            } else {
-                console.log('❌ المستخدم ليس مشرف');
-                adminBtn.style.display = 'none';
-            }
-            
-            userInfoBar.classList.add('active');
-            welcomePage.style.display = 'none';
-            servicesPage.classList.add('active');
+
+userInfoBar.classList.add('active');
+welcomePage.style.display = 'none';
+servicesPage.classList.add('active');
         }
 
         // ============================================
